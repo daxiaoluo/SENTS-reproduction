@@ -9,9 +9,14 @@ if ! [ "$#" -eq 1 ] || ! [ -f "$1" ]; then
   exit 1
 fi
 
+#PARSER
+
+XML_Directory = ''
+
+
 # util now the first argument should be an XML file to split
 # copy the spliting sentence into a text file
-python3 _1_Split_sentence.py $1 > Splitting.txt
+python3 _1_Split_sentence.py XML_Directory > Splitting.txt
 cat *.txt > ../NeuralTextSimplification/data/test.en
 cat *.txt > ../NeuralTextSimplification/data/test.sen
 

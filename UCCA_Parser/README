@@ -1,0 +1,7 @@
+
+# An environment where the package "tupa" is installed is required to run this script.
+# In addition, the pre-trained models need to be downloaded. Refer to the next link.
+# https://github.com/danielhers/tupa
+
+# First: Put all passages to be parsed in the passages repository.
+# An empty line must separate two paragraphs. To be precise, two "\n"s.

@@ -22,25 +22,25 @@ fi
 
 
 # Setup diretory for the generated split paragraphs from text                                       
-# if [ -e $UCCA_DIR/sentences/$article_name ]; then
-#     rm -f $UCCA_DIR/sentences/$article_name/*.txt
-# else
-#     mkdir $UCCA_DIR/sentences/$article_name/
-# fi
+if [ -e $UCCA_DIR/sentences/$article_name ]; then
+    rm -f $UCCA_DIR/sentences/$article_name/*.txt
+else
+    mkdir $UCCA_DIR/sentences/$article_name/
+fi
 
-# if [ -e $UCCA_DIR/passages/$article_name ]; then
-#     rm -f $UCCA_DIR/passages/$article_name/*.txt
-# else
-#     mkdir $UCCA_DIR/passages/$article_name/
-# fi
+if [ -e $UCCA_DIR/passages/$article_name ]; then
+    rm -f $UCCA_DIR/passages/$article_name/*.txt
+else
+    mkdir $UCCA_DIR/passages/$article_name/
+fi
 
 # Split text to paragraphs                                                                          
-# python $WORK_DIR/scripts/text_to_paragraphs.py $1
+python $WORK_DIR/scripts/text_to_paragraphs.py $1
 echo "---------------------- Text split to paragraphs"
 
-# Parse the paragraphs                                                                              
-# python -m tupa $UCCA_DIR/sentences/$article_name/*.txt -m $WORK_DIR/models/ucca-bilstm
-# mv *.xml $UCCA_DIR/passages/$article_name/
+Parse the paragraphs                                                                              
+python -m tupa $UCCA_DIR/sentences/$article_name/*.txt -m $WORK_DIR/models/ucca-bilstm
+mv *.xml $UCCA_DIR/passages/$article_name/
 echo "---------------------- Parsed the paragraphs"
 
 
@@ -53,7 +53,7 @@ cat $WORK_DIR/_internship_work/Splitting.txt > $WORK_DIR/NeuralTextSimplificatio
 cat $WORK_DIR/_internship_work/Splitting.txt > $WORK_DIR/NeuralTextSimplification/data/test.sen
 echo "---------------------- Splitting done"
 
-# PAss sentences through the Neural Component
+# Pass sentences through the Neural Component
 cd $WORK_DIR/NeuralTextSimplification/src/scripts/
 source $WORK_DIR/NeuralTextSimplification/src/scripts/translate.sh
 cd ../../results_NTS

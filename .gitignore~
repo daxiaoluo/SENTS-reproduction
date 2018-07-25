@@ -1,0 +1,7 @@
+UCCA_Parser/ucca_module
+UCCA_Parser/tupa_module
+vocab
+NeuralTextSimplification
+models
+results_NTS
+UCCA_Parser/passages/example

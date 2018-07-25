@@ -34,11 +34,11 @@ else
     mkdir $UCCA_DIR/passages/$article_name/
 fi
 
-# Split text to paragraphs                                                                          
+# # Split text to paragraphs                                                                          
 python $WORK_DIR/scripts/text_to_paragraphs.py $1
 echo "---------------------- Text split to paragraphs"
 
-Parse the paragraphs                                                                              
+# # Parse the paragraphs                                                                              
 python -m tupa $UCCA_DIR/sentences/$article_name/*.txt -m $WORK_DIR/models/ucca-bilstm
 mv *.xml $UCCA_DIR/passages/$article_name/
 echo "---------------------- Parsed the paragraphs"
@@ -66,4 +66,4 @@ echo "$value"
 echo "" > results_NTS # clear results file
 
 cd $WORK_DIR
-#rm $XML_DIR/* # remove all XML files
+rm $XML_DIR/* # remove all XML files

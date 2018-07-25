@@ -1,8 +1,9 @@
-UCCA_Parser/ucca_module
-UCCA_Parser/tupa_module
+UCCA_Parser/
+UCCA_Parser/
 vocab
-NeuralTextSimplification
-models
-UCCA_Parser/passages/*
-UCCA_Parser/sentences/*/
+NeuralTextSimplification_model
+TUPA_models
+scripts/paragraphs/*
+scripts/passages/*
 .gitignore~
+*.txt

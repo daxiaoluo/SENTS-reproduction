@@ -23,7 +23,7 @@ if ! [ "$#" -eq 1 ] || ! [ -f "$1" ] || ! [[ $1 == *.txt ]]; then
 fi
 
 
-# Setup diretory for the generated split paragraphs from text                                       
+# Setup diretory for the generated split paragraphs from text
 
 if [ -e $sentence_dir ]; then
     rm -f $sentence_dir/*.txt
@@ -40,12 +40,12 @@ else
 fi
 
 
-# Split text to paragraphs                                                                          
+# Split text to paragraphs
 python $SCRIPTS_DIR/text_to_paragraphs.py $WORK_DIR/$1
 echo "---------------------- Text split to paragraphs"
 
 
-# Parse the paragraphs                                                                              
+# Parse the paragraphs
 python -m tupa $sentence_dir/*.txt -m $WORK_DIR/TUPA_models/ucca-bilstm
 mv *.xml $passage_dir
 echo "---------------------- Parsed the paragraphs"
@@ -68,9 +68,10 @@ value=$(<result_NTS_epoch11_10.19.t7_5)
 echo "$value"
 
 cd $WORK_DIR
+echo "$value" >> $article_name-simple.txt
 
 read -p "Delete generated xml files? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    rm $XML_DIR/* # remove all XML files
+    rm $passage_dir/* # remove all XML files
 fi

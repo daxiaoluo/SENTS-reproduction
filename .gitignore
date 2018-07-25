@@ -5,3 +5,4 @@ NeuralTextSimplification
 models
 UCCA_Parser/passages/*
 UCCA_Parser/sentences/*/
+.gitignore~

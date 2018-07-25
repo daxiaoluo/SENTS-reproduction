@@ -3,7 +3,7 @@ UCCA_Parser/
 vocab
 NeuralTextSimplification_model
 TUPA_models
-scripts/paragraphs/*
-scripts/passages/*
+scripts/paragraphs/
+scripts/passages/
 .gitignore~
 *.txt

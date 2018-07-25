@@ -7,7 +7,7 @@ file=$1
 filename="${file##*/}"
 article_name="${filename%.*}"
 
-sentence_dir=$SCRIPTS_DIR/sentences/$article_name
+sentence_dir=$SCRIPTS_DIR/paragraphs/$article_name
 passage_dir=$SCRIPTS_DIR/passages/$article_name
 
 
@@ -24,15 +24,18 @@ fi
 
 
 # Setup diretory for the generated split paragraphs from text                                       
+
 if [ -e $sentence_dir ]; then
     rm -f $sentence_dir/*.txt
 else
+    mkdir -p $SCRIPTS_DIR/paragraphs/
     mkdir $sentence_dir/
 fi
 
 if [ -e $passage_dir ]; then
     rm -f $passage_dir/*.txt
 else
+    mkdir -p $SCRIPTS_DIR/passages/
     mkdir $passage_dir/
 fi
 

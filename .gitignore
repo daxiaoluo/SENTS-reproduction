@@ -3,5 +3,5 @@ UCCA_Parser/tupa_module
 vocab
 NeuralTextSimplification
 models
-results_NTS
 UCCA_Parser/passages/*
+UCCA_Parser/sentences/*/

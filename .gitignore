@@ -1,9 +1,10 @@
-UCCA_Parser/
-UCCA_Parser/
 vocab
 NeuralTextSimplification_model
 TUPA_models
 scripts/paragraphs/
 scripts/passages/
+scripts/.ipynb_checkpoints/
+scripts/*.xml
 .gitignore~
 *.txt
+scripts/_1_Split_sentence.ipynb

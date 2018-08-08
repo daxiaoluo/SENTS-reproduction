@@ -20,12 +20,11 @@ with open ( filename + extension, "r") as textfile:
 paragraphs = text.split ("\n\n")
 paragraphs[-1] = paragraphs[-1].strip()
 
-# Put each paragraph in a file inside the article folder (must be precreated)
+# Put each paragraph in a file inside the article folder (must be precreated)  
+for i in range (len(paragraphs)):    
+    for j in range(len(paragraphs[i].split('.'))-1):              
+        p_filename = paragraph_path + "/" + article_name + "_" + str (i+1) + "_" + str (j+1) + ".txt"    
 
-for i in range (len(paragraphs)):
-    p_filename = paragraph_path + "/" + article_name + "_" + str (i+1) + ".txt"
-
-    p_file = open (p_filename, 'w')
-    p_file.write (paragraphs[i])
-    p_file.close()
-
+        p_file = open (p_filename, 'w')
+        p_file.write (paragraphs[i].split('.')[j] + '.')
+        p_file.close()        

@@ -40,23 +40,23 @@ else
 fi
 
 
-# Split text to paragraphs
+# Spliting text to paragraphs
 python $SCRIPTS_DIR/text_to_paragraphs.py $WORK_DIR/$1
-echo "---------------------- Text split to paragraphs"
+echo "---------------------- Text splited to paragraphs DONE"
 
 
 # Parse the paragraphs
 python -m tupa $sentence_dir/*.txt -m $WORK_DIR/TUPA_models/ucca-bilstm
 mv *.xml $passage_dir
-echo "---------------------- Parsed the paragraphs"
+echo "---------------------- Parsed DONE"
 
 
 # util now the first argument should be an XML file to split
 # copy the spliting sentence into a text file
 python $SCRIPTS_DIR/_1_Split_sentence.py $passage_dir > $sentence_dir/Splitting.txt
 cat $sentence_dir/Splitting.txt > $WORK_DIR/NeuralTextSimplification_model/data/test.en
-cat $sentence_dir/Splitting.txt > $WORK_DIR/NeuralTextSimplification_model/data/test.sen
-echo "---------------------- Splitting done"
+#cat $sentence_dir/Splitting.txt > $WORK_DIR/NeuralTextSimplification_model/data/test.sen
+echo "---------------------- Splitting DONE"
 
 # Pass sentences through the Neural Component
 cd $WORK_DIR/NeuralTextSimplification_model/src/scripts/
@@ -66,6 +66,9 @@ echo "---------------------- Gone through the Neural Network"
 
 value=$(<result_NTS_epoch11_10.19.t7_5)
 echo "$value"
+
+# evaluate the script
+python $WORK_DIR/NeuralTextSimplification_model/src/evaluate.py $WORK_DIR/NeuralTextSimplification_model/data/test.en $WORK_DIR/NeuralTextSimplification_model/data/references/references.tsv $WORK_DIR/NeuralTextSimplification_model/predictions/
 
 cd $WORK_DIR
 echo "$value" >> $article_name-simple.txt

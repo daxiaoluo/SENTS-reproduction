@@ -5,7 +5,7 @@ scripts/paragraphs/
 scripts/passages/
 scripts/.ipynb_checkpoints/
 scripts/*.xml
-.gitignore~
 *.txt
 scripts/_1_Split_sentence.ipynb
 LAUNCH
+*~

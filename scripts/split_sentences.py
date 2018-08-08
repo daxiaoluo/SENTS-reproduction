@@ -1,5 +1,5 @@
 
-# coding: utf-8
+#encoding: utf-8
 
 # In[74]:
 
@@ -232,7 +232,6 @@ for fileXML in onlyXML:
     List1.append(fileXML.split('_')[2])
     layers.append(List1)
 
-
 # In[77]:
 
 
@@ -241,16 +240,19 @@ for fileXML in onlyXML:
 #####################################################################
 layer = layers[0]
 layer1, layer2 = layer[0], layer[1]
-simple, Lists_Scene = Main(layer1, layer2) # Main function,  see details above           
-print(simple + " ")  
+simple, Lists_Scene = Main(layer1, layer2) # Main function,  see details above
+
+# This method is used to avoid problems with unicode characters encountered with print fucntion
+sys.stdout.buffer.write ((simple + " \n").encode ('utf-8'))
+
 for i in range(1,len(layers)):
     layer = layers[i]    
     layer1, layer2 = layer[0], layer[1]
-    simple, Lists_Scene = Main(layer1, layer2) # Main function,  see details above             
+    simple, Lists_Scene = Main(layer1, layer2) # Main function,  see details above
     if layer[2] == layers[i-1][2]:
-        print(simple + " ")  
+        sys.stdout.buffer.write ((simple + " \n").encode ('utf-8'))
     elif layer[2] != layers[i-1][2]:
-        print("\n")
-        print(simple + " ")         
+        sys.stdout.buffer.write (("\n" + simple + " \n").encode ('utf-8'))
+        
 #print("Original: ", Get_Original(layer1))   
-
+            

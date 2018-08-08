@@ -8,3 +8,4 @@ scripts/*.xml
 .gitignore~
 *.txt
 scripts/_1_Split_sentence.ipynb
+LAUNCH

@@ -19,15 +19,16 @@ GREEN := \033[0;32m
 
 work_dir=$(PWD)
 script_dir=$(work_dir)/scripts
+NTS_dir=$(work_dir)/NeuralTextSimplification_model
 
 file?=""
 filetype:=$(shell file $(file) | cut -d: -f2)
 
 article_name = $(basename $(notdir $(file)))
 article_simple = $(article_name)-simple.txt
-NTS_script = $(work_dir)/NeuralTextSimplification_model/src/scripts/translate.sh
-NTS_input = $(work_dir)/NeuralTextSimplification_model/data/test.en
-NTS_result_file = $(work_dir)/NeuralTextSimplification_model/results_NTS/result_NTS_epoch11_10.19.t7_5
+NTS_script = $(NTS_dir)/src/scripts/translate.sh
+NTS_input = $(NTS_dir)/data/test.en
+NTS_result_file = $(NTS_dir)/results_NTS/result_NTS_epoch11_10.19.t7_5
 
 # passage = xml file representing a sentence parsed with TUPA
 sentence_dir = $(script_dir)/sentences/$(article_name)
@@ -47,6 +48,13 @@ passages = $(passage_dir)/*.xml
 all: file_test $(article_simple)
 	printf "\n${GREEN}Article simplified :\n====================${NC}\n\n"
 	cat $(article_simple)
+
+
+# evaluate the system results using BLUE & SARI metrics
+# The original test.en must be given to evaluate (https://github.com/senisioi/NeuralTextSimplification)
+evaluate: all
+	printf "\n${GREEN}Evaluating: (the original test.en must be given)${NC}\n\n"
+	python $(NTS_dir)/src/evaluate.py $(NTS_input) $(NTS_dir)/data/references/references.tsv $(NTS_dir)/predictions
 
 
 ############################################################################################
@@ -101,7 +109,7 @@ $(article_simple): $(NTS_result_file)
 
 $(NTS_result_file): $(NTS_script) $(NTS_input)
 	printf "\n${GREEN}Simplifying sentences using the NTS model ... :${NC}\n\n"
-	cd $(work_dir)/NeuralTextSimplification_model/src/scripts/
+	cd $(NTS_dir)/src/scripts/
 	source ./translate.sh
 
 

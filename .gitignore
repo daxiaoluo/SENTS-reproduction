@@ -8,7 +8,7 @@ scripts/*.xml
 *.txt
 scripts/split_sentence.ipynb
 LAUNCH
-web-Internship2A/node_modules
-web-Internship2A/package-lock.json
-web-Internship2A/*.txt
+website/node_modules
+website/package-lock.json
+website/*.txt
 *~

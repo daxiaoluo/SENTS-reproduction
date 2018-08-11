@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Text Simplification</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="./node_modules/angular/angular.min.js"></script>
+</head>
+<body  ng-controller="myCtrl">
+	<div align="center">
+		<form action="ts" method="post">
+			<h4>Please enter your text:</h4>
+			<input type="text" name="texte"placeholder="Write Some texte..."><input type="submit" value="Simplify"><br><br>
+		</form>
+	</div>
+	<div align="center">
+		<h4>Or select your text file '*.txt':</h4>
+	</div>
+	<div align="center">
+		<form action="fileupload" method="post" enctype="multipart/form-data">
+			<input type="file" name="filetoupload"><input type="submit" value="Simplify"><br><br>
+		</form>
+	</div>
+	<div align="center">
+		<h4>Output:</h4>
+		<h5>{{output}}</h5>
+	</div>
+	<script>
+	var app = angular.module('myApp', []);
+	app.controller('myCtrl', function($scope, $http) {
+		$http.get("/ts")
+		.then(function(response) {
+			$scope.output = response.data;
+		});
+	});
+</script>
+</body>
+</html>

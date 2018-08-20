@@ -53,7 +53,7 @@ cd ..
 patch -s -p0 < file.patch
 ~~~
 
-8. Get help on using the Makefile to run the system
+8. Get help on using the Makefile to run the Text Simplification system
 ~~~bash
 make help
 ~~~

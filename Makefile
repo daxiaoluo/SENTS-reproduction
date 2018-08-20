@@ -1,14 +1,3 @@
-# -------TO_DO
-# Merge & send to github
-# More features to add
-#	Split makefile into small ones
-# 	many files to simplify in the same call
-#	Simple call for make without file="file_name"
-#	Cleaning before remake
-#	OS compatibility
-#	(still the case when it only fails partially -> to be treated)
-
-
 # State-of-the-art paper: http://www.aclweb.org/anthology/P18-1016
 
 

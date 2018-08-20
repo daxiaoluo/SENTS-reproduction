@@ -95,9 +95,9 @@ file_test:
 	fi
 
 # 	Whether it is a text file
-	if [[ "$(filetype)" != " ASCII text" && "$(filetype)" != " UTF-8 Unicode text" ]]; then
-		printf "$(RED)ERROR${NC}: Only text files (ASCII or UTF-8 Unicode text) are accepted!\n\n"; exit 1
-	fi
+#	if [[ "$(filetype)" != " ASCII text" && "$(filetype)" != " UTF-8 Unicode text" ]]; then
+	#	printf "$(RED)ERROR${NC}: Only text files (ASCII or UTF-8 Unicode text) are accepted!\n\n"; exit 1
+#	fi
 
 ##############################################################################################
 

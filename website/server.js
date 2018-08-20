@@ -28,7 +28,7 @@ app.get('/ts',function(req, res){
 app.post('/ts', function(req,res){
   fs.writeFile(__dirname + '/input.txt',req.body.texte ,'utf8', function (err) {
     if (err) throw err;
-    shell.exec(path.join(__dirname, '../run.sh ')+ path.join(__dirname, '/input.txt'));
+    shell.exec(path.join(__dirname, '../.webserver_run.sh ')+ path.join(__dirname, '/input.txt'));
     fs.readFile(__dirname + '/input-simple.txt', 'utf8', function(err, contents) {
       output = contents;
       res.redirect('/');
@@ -43,7 +43,7 @@ app.post('/fileupload', function(req,res){
     var newpath = __dirname + '/' + files.filetoupload.name;
     fs.rename(oldpath, newpath, function (err) {
       if (err) throw err;
-      shell.exec(path.join(__dirname, '../run.sh ')+ path.join(newpath)); // execute the entire model
+      shell.exec(path.join(__dirname, '../.webserver_run.sh ')+ path.join(newpath)); // execute the entire model
       fs.readFile(__dirname + '/' + files.filetoupload.name.split(".")[0]+'-simple.txt', 'utf8', function(err, contents) {
         output = contents;
         res.redirect('/');

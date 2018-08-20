@@ -99,6 +99,17 @@ help:
 	printf "${CYAN}make clean${NC} : Cleans results of previous executions.\n\n"
 
 
+
+help:
+	printf "\n${CYAN}make file=<file_path>${NC} : Executes the simplification completely and avoids rebuilding if unnecessary.\n\n"
+	printf "${CYAN}make file=<file_path> file_test${NC} : Tests whether the given file is valid.\n\n" 
+	printf "${CYAN}make file=<file_path> NTS${NC} : Generates the corresponding NTS model result file.\n\n"
+	printf "${CYAN}make file=<file_path> DSS${NC} : Generates the article's sentences split using the two semantic rules mentioned in the paper.\n\n"
+	printf "${CYAN}make file=<file_path> tupa_parse${NC} : Parses the article's sentences using TUPA -> output : xml files.\n\n"
+	printf "${CYAN}make file=<file_path> split_to_sentences${NC} : Splits the article into sentences, each one in a single file.\n\n"
+	printf "${CYAN}make clean${NC} : Cleans results of previous executions.\n\n"
+
+
 ##############################################################################################
 
 

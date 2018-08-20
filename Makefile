@@ -1,21 +1,11 @@
-# -------TO_DO
-# Merge & send to github
-# More features to add
-#	Split makefile into small ones
-# 	many files to simplify in the same call
-#	Simple call for make without file="file_name"
-#	Cleaning before remake
-#	OS compatibility
-#	(still the case when it only fails partially -> to be treated)
-
-
 # State-of-the-art paper: http://www.aclweb.org/anthology/P18-1016
 
 
 SHELL := /bin/bash
-NC := \033[0m #No color
+NC := \033[0m
 RED := \033[0;31m
 GREEN := \033[0;32m
+CYAN := \033[0;36m
 
 work_dir=$(PWD)
 script_dir=$(work_dir)/scripts
@@ -44,7 +34,6 @@ passages = $(passage_dir)/*.xml
 .PHONY: all file_test NTS DSS tupa_parse split_to_sentences clean
 
 
-# Precleans in order to avoid any conflicts with previous simplifications
 all: file_test $(article_simple)
 	printf "\n${GREEN}Article simplified :\n====================${NC}\n\n"
 	cat $(article_simple)
@@ -61,7 +50,7 @@ evaluate: all
 
 # The following targets are only useful as aliases for testing
 
-# Generates the NTS model result file after making the following targets.
+# Generates the corresponding NTS model result file.
 NTS: file_test $(NTS_result_file)
 
 # Generates the article sentences split using the two semantic rules mentioned in the paper.
@@ -99,6 +88,17 @@ file_test:
 	#	printf "$(RED)ERROR${NC}: Only text files (ASCII or UTF-8 Unicode text) are accepted!\n\n"; exit 1
 #	fi
 
+
+help:
+	printf "\n${CYAN}make file=<file_path>${NC} : Executes the simplification completely and avoids rebuilding if unnecessary.\n\n"
+	printf "${CYAN}make file=<file_path> file_test${NC} : Tests whether the given file is valid.\n\n" 
+	printf "${CYAN}make file=<file_path> NTS${NC} : Generates the corresponding NTS model result file.\n\n"
+	printf "${CYAN}make file=<file_path> DSS${NC} : Generates the article's sentences split using the two semantic rules mentioned in the paper.\n\n"
+	printf "${CYAN}make file=<file_path> tupa_parse${NC} : Parses the article's sentences using TUPA -> output : xml files.\n\n"
+	printf "${CYAN}make file=<file_path> split_to_sentences${NC} : Splits the article into sentences, each one in a single file.\n\n"
+	printf "${CYAN}make clean${NC} : Cleans results of previous executions.\n\n"
+
+
 ##############################################################################################
 
 
@@ -108,7 +108,7 @@ $(article_simple): $(NTS_result_file)
 
 
 $(NTS_result_file): $(NTS_script) $(NTS_input)
-	printf "\n${GREEN}Simplifying sentences using the NTS model ... :${NC}\n\n"
+	printf "\n${GREEN}Simplifying sentences using the NTS model : ... ${NC}\n\n"
 	cd $(NTS_dir)/src/scripts/
 	source ./translate.sh
 
@@ -130,6 +130,7 @@ $(passages): $(sentences) | $(passage_dir)
 
 
 $(sentences): $(file) $(script_dir)/article_to_sentences.py | $(sentence_dir)
+	echo $(PWD)
 	python $(script_dir)/article_to_sentences.py $(file)
 
 

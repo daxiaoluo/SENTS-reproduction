@@ -69,11 +69,11 @@ split_to_sentences: file_test $(sentences)
 # Testing the validity of the file
 file_test:
 # 	Whether the file was provided as an argument
-	if [ $(file) = "" ]; then 
+	if [ $(file) = "" ]; then
 		printf "${RED}ERROR${NC}: One & only file must be given in argument! Please specify it by:\nmake file=<file_name> <target>\n\n"; exit 1
 	fi
 
-# 	Whether the file exists 
+# 	Whether the file exists
 	if [ ! -f $(file) ]; then
 		printf "$(RED)ERROR${NC}: $(file) File not found!\n\n"; exit 1
 	fi
@@ -83,7 +83,7 @@ file_test:
 		printf "$(RED)ERROR${NC}: $(file) is empty!\n\n"; exit 1
 	fi
 
-# 	Whether it is a text file 
+# 	Whether it is a text file
 	if [[ "$(filetype)" != " ASCII text" && "$(filetype)" != " UTF-8 Unicode text" ]]; then
 		printf "$(RED)ERROR${NC}: Only text files (ASCII or UTF-8 Unicode text) are accepted!\n\n"; exit 1
 	fi
@@ -102,7 +102,7 @@ $(NTS_result_file): $(NTS_script) $(NTS_input)
 	source ./translate.sh
 
 
-$(NTS_input): $(script_dir)/split_sentences.py $(passages)	
+$(NTS_input): $(script_dir)/split_sentences.py $(passages)
 	printf "\n${GREEN}Splitting the article's sentences : ... ${NC}\n"
 	python $(script_dir)/split_sentences.py $(passage_dir) > $(NTS_input)
 
@@ -112,7 +112,7 @@ $(NTS_input): $(script_dir)/split_sentences.py $(passages)
 	fi
 
 
-$(passages): $(sentences) | $(passage_dir) 
+$(passages): $(sentences) | $(passage_dir)
 	printf "\n${GREEN}Parsing the article's sentences : ... ${NC}\n\n"
 	python -m tupa $(sentences) -m $(work_dir)/TUPA_models/ucca-bilstm
 	mv *.xml $(passage_dir)
@@ -124,7 +124,7 @@ $(sentences): $(file) $(script_dir)/article_to_sentences.py | $(sentence_dir)
 
 # Creates the passage directory
 $(passage_dir): $(file)
-	if [ -d $(passage_dir) ]; then 
+	if [ -d $(passage_dir) ]; then
 		rm -f $(passage_dir)/*.xml
 	else
 		mkdir -p $(script_dir)/passages/

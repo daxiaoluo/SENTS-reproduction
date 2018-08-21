@@ -27,6 +27,14 @@ global relative_Pronouns
 relative_Pronouns = ["which","whom","whose","that"] # words that we would remove and their type is 'F'
 
 def Get_Scene_ID(layer, Elaborator_ID):
+    """Returns All Scene ID, and also a copy of Elaborator ID .
+    Args:
+        layer: it's layer2 of the tree where there is explicitly details of nodes.
+        Elaborator_ID: a list contains just Elaborator ID and we copy if we found more while executing this function.
+    Returns:
+        List_ID: all scenes ID (Parallel and Elaborator).
+        Elaborator_ID: only Elaborator ID.
+    """
     List_ID = []
     for element in layer:
         if element.tag == 'node':
@@ -38,8 +46,14 @@ def Get_Scene_ID(layer, Elaborator_ID):
                     List_ID.extend(List1)
     return List_ID, Elaborator_ID
 #####################################################################
-# get the ListID of elaborator scene include into other scene
 def Create_Intermidiate_Scene(layer1,layer2, Scene_Node, Elaborator_ID):
+    """ Get the ListID of elaborator scene include into other scene
+    Args:
+        Scene_Node: The present scene object we process.
+        Elaborator_ID: a list contains just Elaborator ID and we copy if we found more while executing this function.
+    Returns:
+        List_ID: a list contains ID of Elaborator scene which is included in Paralle scene.       
+    """
     ListID = []
     if Is_Node_Terminal(Scene_Node):
         return []
@@ -59,26 +73,38 @@ def Create_Intermidiate_Scene(layer1,layer2, Scene_Node, Elaborator_ID):
                 ListID.extend(List1)
         return ListID
 #####################################################################
-# Get the related node to an edge (by attribut 'toID')
 def Get_Node_By_ID(layer,ID):
+    """ Get the related node to an edge (by attribut 'toID').
+    Args:
+        layer: layer1 where we look for the node object by its ID given as arguments too.       
+    Returns:
+        node: an object contains all details about the node and its edges.
+    """
     for node in layer:
         if node.tag == 'node' and node.attrib["ID"] == ID:
             return node
 #####################################################################
-# Check if all edges of a node are Terminals, or not
 def Is_Node_Terminal(node):
+    """ Check if all edges of a node are Terminals, or not.
+    """
     for child in node:
         if child.tag == 'edge' and child.attrib["type"] != "Terminal":
             return 0
     return 1
 #####################################################################
 # if it's Temrial or A or P .. check all different types in paper
-def Get_Type_Edge(edge):
+def Get_Type_Edge(edge):    
     if edge.tag == 'edge':
         return edge.attrib["type"]
 #####################################################################
-# Get word related to an edge from layer 1.
 def Get_Word(layer, ID) :
+      """ Get word related to an edge from layer 1.
+    Args:
+        layer: it's layer1 where we found words
+        ID: the ID of the node in layer 1 which we want its text
+    Returns:
+        List_ID: a list contains ID of Elaborator scene which is included in Paralle scene.       
+    """
     for node in layer:
         if node.tag == 'node' and node.attrib["ID"] == ID:
             for child_node in node:
@@ -93,8 +119,13 @@ def Get_Word(layer, ID) :
                         else:
                             return ""
 #####################################################################
-# Get the original sentence we have as Input; just to make a visual comparaison
 def Get_Original(layer):
+    """ Get the original sentence we have as Input; just to make a visual comparaison.
+    Args:
+        layer: it's layer1 where we found words       
+    Returns:
+        original: it is the original text == Input.
+    """
     original = ""
     for node in layer:
         if node.tag == 'node':
@@ -107,6 +138,13 @@ def Get_Original(layer):
 #####################################################################
 # Get all edge's ID of a specific Node
 def Get_All_Edge_ID(layer, NodeID):
+    """ Get all edge's ID of a specific Node
+    Args:
+        layer: it's layer 2.
+        NodeID: the ID of node we would have its edges
+    Returns:
+        List: contains all edges as obejct
+    """
     List = []
     for node in layer:
         if node.tag == "node" and node.attrib["ID"] == NodeID:
@@ -115,8 +153,14 @@ def Get_All_Edge_ID(layer, NodeID):
                     List.append(child.attrib["toID"])
     return List
 #####################################################################
-# if a node is Terminal, means all its edges are Terminals so we rechieve the text presented by it
 def Get_Text_From_Terminal_Node(layer1, layer2, terminal_Nd):
+     """ if a node is Terminal, means all its edges are Terminals so we rechieve the text presented by the node.
+    Args:
+        layer: it's layer 2.
+        terminal_Nd: it is the object of the terminal node.
+    Returns:
+        Text: the text presented by the termnial_Nd
+    """
     Text = ""
     if Is_Node_Terminal(terminal_Nd):
         for edgeID in Get_All_Edge_ID(layer2, terminal_Nd.attrib["ID"]):
@@ -127,8 +171,13 @@ def Get_Text_From_Terminal_Node(layer1, layer2, terminal_Nd):
                     Text += Get_Word(layer1, edgeID) + " "
     return Text
 #####################################################################
-# Tree iteration , with deep course -- return the text
 def recursive(layer1, layer2, Node,All_sceneID, Elaborator_ID):
+    """ Tree iteration , with deep course -- return the text.
+    Args:
+        Node: a node Object that we want get the text behind his own tree       
+    Returns:
+        Text: the text presented by the tree of the node passed in args
+    """
     Text = ""
     if Is_Node_Terminal(Node):
         Text += Get_Text_From_Terminal_Node(layer1, layer2, Node)
@@ -150,8 +199,13 @@ def recursive(layer1, layer2, Node,All_sceneID, Elaborator_ID):
                     Text += recursive(layer1, layer2, Next_nd, All_sceneID, Elaborator_ID)
     return Text
 #####################################################################
-# Combine all scenes in one sentence simple as output
 def Get_Simple(Lists_Scene):
+    """ Combine all scenes in one sentence simple as output
+    Args:
+        Lists_Scene: the list that contains all scenes we have extracted seperatly 
+    Returns:
+        simple: it combines all scenes in one string.
+    """
     simple = ''
     for scene in Lists_Scene:
         simple += scene[0].upper() + scene[1: len(scene)-1] + '. '
@@ -159,6 +213,10 @@ def Get_Simple(Lists_Scene):
 #####################################################################
 # The main function returns the entire simple sentence and also list of scene independently, the return is a list of two lists
 def Main(layer1, layer2):   
+     """ Combine all scenes in one sentence simple as output    
+    Returns:
+        simple, Lists_Scene : two elements; simple: the entire text splitted. Lists_Scene: same as described before.
+    """
     global ELABORATOR_PROCESS
     Lists_Scene, Elaborator_ID, Lists_Scene = ([] for i in range(3)) # initialize 3 empty list at same time
     All_sceneID, Elaborator_ID = Get_Scene_ID(layer2, Elaborator_ID) # this fucntion return two list     
@@ -182,8 +240,11 @@ def Get_Child_List(Node):
             List.append(child)
     return List
 #####################################################################
-# Reorder child in case we have: ['A','F','A','P']
 def Order_Child(Current_child_Index,List_child):
+        """ Reorder child in case we have: ['A','F','A','P'] on edges tag
+    Args:
+        Current_child_Index: the current child index (its number as a child)        
+    """
     i = Current_child_Index
     if set([i,i+1,i+2,i+3]).issubset(range(len(List_child))) and List_child[i].attrib["type"] == 'A' and List_child[i+1].attrib["type"] == 'F' and List_child[i+2].attrib["type"] == 'A' and List_child[i+3].attrib["type"] == 'P':
         if Get_Text_From_Terminal_Node(layer1, layer2, Get_Node_By_ID(layer2, List_child[i+1].attrib[("toID")])) != "'s ": # yes I compare to ''s' cause orignally it's whose

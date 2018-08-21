@@ -1,23 +1,25 @@
 # State-of-the-art paper: http://www.aclweb.org/anthology/P18-1016
 
 
+########################################Definitions########################################
+
 SHELL := /bin/bash
 NC := \033[0m
 RED := \033[0;31m
 GREEN := \033[0;32m
 CYAN := \033[0;36m
 
-work_dir=$(PWD)
-script_dir=$(work_dir)/scripts
-NTS_dir=$(work_dir)/NeuralTextSimplification_model
+work_dir := $(PWD)
+script_dir := $(work_dir)/scripts
+NTS_dir := $(work_dir)/NeuralTextSimplification_model
 
 file?=""
-filetype:=$(shell file $(file) | cut -d: -f2)
+filetype := $(shell file $(file) | cut -d: -f2)
 
-article_name = $(basename $(notdir $(file)))
-article_simple = $(article_name)-simple.txt
-NTS_script = $(NTS_dir)/src/scripts/translate.sh
-NTS_input = $(NTS_dir)/data/test.en
+article_name := $(basename $(notdir $(file)))
+article_simple := $(article_name)-simple.txt
+NTS_script := $(NTS_dir)/src/scripts/translate.sh
+NTS_input := $(NTS_dir)/data/test.en
 NTS_result_file = $(NTS_dir)/results_NTS/result_NTS_epoch11_10.19.t7_5
 
 # passage = xml file representing a sentence parsed with TUPA
@@ -31,7 +33,7 @@ passages = $(passage_dir)/*.xml
 
 .SILENT:
 .ONESHELL: # To execute all commands in one single bash shell
-.PHONY: all file_test NTS DSS tupa_parse split_to_sentences clean
+.PHONY: all file_test NTS DSS tupa_parse split_to_sentences help clean
 
 
 all: file_test $(article_simple)
@@ -141,7 +143,6 @@ $(passages): $(sentences) | $(passage_dir)
 
 
 $(sentences): $(file) $(script_dir)/article_to_sentences.py | $(sentence_dir)
-	echo $(PWD)
 	python $(script_dir)/article_to_sentences.py $(file)
 
 

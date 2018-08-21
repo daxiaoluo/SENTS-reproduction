@@ -280,7 +280,7 @@ def Get_XML_files(mypath):
 # mypath directory xml fiels
 mypath = sys.argv[1]
 onlyXML = Get_XML_files(mypath) # get all XML file that outcome from parser part
-layers = []
+layers = [] # this is a list of list, each element contains the two layers and number of paragraphs of sentences and also the line in this paragraphs
 for fileXML in onlyXML:
     file_path = mypath + "/" + fileXML
     tree = ET.parse(file_path)
@@ -292,6 +292,7 @@ for fileXML in onlyXML:
     List1.append(fileXML.split('_')[1]) # the 3rd element indicate the number of paragraph ex 'test_NPara_NLine'
     List1.append(fileXML.split('_')[2])
     layers.append(List1)
+    
 
 # In[77]:
 
@@ -310,7 +311,7 @@ for i in range(1,len(layers)):
     layer = layers[i]    
     layer1, layer2 = layer[0], layer[1]
     simple, Lists_Scene = Main(layer1, layer2) # Main function,  see details above
-    if layer[2] == layers[i-1][2]:
+    if layer[2] == layers[i-1][2]: #compare if the two sentence have same paragraph number or not
         sys.stdout.buffer.write ((simple + " \n").encode ('utf-8'))
     elif layer[2] != layers[i-1][2]:
         sys.stdout.buffer.write (("\n" + simple + " \n").encode ('utf-8'))

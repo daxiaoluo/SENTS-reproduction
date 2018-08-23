@@ -50,7 +50,7 @@ cd ..
 
 7. Apply the existing patch to the NTS model
 ~~~bash
-patch -s -p0 < file.patch
+patch -s -p0 < NTS.patch
 ~~~
 
 8. Get help on using the Makefile to run the Text Simplification system

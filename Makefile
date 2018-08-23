@@ -86,11 +86,12 @@ file_test:
 	fi
 
 # 	Whether it is a text file
-	if [[ "$(filetype)" != " ASCII text" && "$(filetype)" != " UTF-8 Unicode text" ]]; then
+	if [[ ! "$(filetype)" = *"ASCII"* && ! "$(filetype)" =~ *"UTF-8"* ]]; then
 		printf "$(RED)ERROR${NC}: Only text files (ASCII or UTF-8 Unicode text) are accepted!\n\n"; exit 1
 	fi
 
 
+# Prints help on the useful targets for the user
 help:
 	printf "\n${CYAN}make file=<file_path>${NC} : Executes the simplification completely and avoids rebuilding if unnecessary.\n\n"
 	printf "${CYAN}make file=<file_path> file_test${NC} : Tests whether the given file is valid.\n\n" 
@@ -104,17 +105,20 @@ help:
 ##############################################################################################
 
 
+# Produces the simple version of text as an output and writes it to "article_simple" variable
 $(article_simple): $(NTS_result_file)
 	cd $(work_dir)
 	cat $(NTS_result_file) > $(article_simple)
 
 
+# Equivalent for target NTS
 $(NTS_result_file): $(NTS_script) $(NTS_input)
 	printf "\n${GREEN}Simplifying sentences using the NTS model : ... ${NC}\n\n"
 	cd $(NTS_dir)/src/scripts/
 	source ./translate.sh
 
 
+# Equivalent for target DSS
 $(NTS_input): $(script_dir)/split_sentences.py $(passages)
 	printf "\n${GREEN}Splitting the article's sentences : ... ${NC}\n"
 	python $(script_dir)/split_sentences.py $(passage_dir) > $(NTS_input)
@@ -125,12 +129,14 @@ $(NTS_input): $(script_dir)/split_sentences.py $(passages)
 	fi
 
 
+# Equivalent for target tupa_parse
 $(passages): $(sentences) | $(passage_dir)
 	printf "\n${GREEN}Parsing the article's sentences : ... ${NC}\n\n"
 	python -m tupa $(sentences) -m $(work_dir)/TUPA_models/ucca-bilstm
 	mv *.xml $(passage_dir)
 
 
+# Equivalent for target split_to_sentences
 $(sentences): $(file) $(script_dir)/article_to_sentences.py | $(sentence_dir)
 	python $(script_dir)/article_to_sentences.py $(file)
 
@@ -155,6 +161,7 @@ $(sentence_dir): $(file)
 	fi
 
 
+# Cleans the residues from previous executions
 clean:
 	rm -rf $(passage_dir)* $(sentence_dir)*
 	echo > $(NTS_result_file)

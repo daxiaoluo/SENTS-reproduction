@@ -1,6 +1,7 @@
 vocab
 NeuralTextSimplification_model
 TUPA_models
+scripts/__pycache__/
 scripts/paragraphs/
 scripts/passages/
 scripts/.ipynb_checkpoints/

@@ -31,8 +31,8 @@ app.post('/ts', function(req,res){
     shell.exec(path.join(__dirname, '../.webserver_run.sh ')+ path.join(__dirname, '/input.txt'));
     fs.readFile(__dirname + '/input-simple.txt', 'utf8', function(err, contents) {
       output = contents;
-      res.redirect('/');
     });
+    res.redirect('/');
   });
 });
 //////////////////////////////////////////////////////
@@ -43,13 +43,13 @@ app.post('/fileupload', function(req,res){
     var newpath = __dirname + '/' + files.filetoupload.name;
     fs.rename(oldpath, newpath, function (err) {
       if (err) throw err;
-      shell.exec(path.join(__dirname, '../.webserver_run.sh ')+ path.join(newpath)); // execute the entire model
+      //shell.exec(path.join(__dirname, '../.webserver_run.sh ')+ path.join(newpath)); // execute the entire model
       fs.readFile(__dirname + '/' + files.filetoupload.name.split(".")[0]+'-simple.txt', 'utf8', function(err, contents) {
         output = contents;
-        res.redirect('/');
       });
+      res.redirect('/');
     });
   });
 });
 ////////////////////////////////////////////////
-app.listen(3000, () => console.log('Server is running!'))
+app.listen(3000, () => console.log('Server is running. Copy this url on your browser: localhost:3000/'))

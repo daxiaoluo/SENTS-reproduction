@@ -58,6 +58,21 @@ patch -s -p0 < NTS.patch
 make help
 ~~~
 
+## Web : Install & Configure
+1- Install the environment : Nodejs, AngularJS, necessary Modules/Packages:
+~~~bash
+cd website/
+. install_modules.sh
+~~~
+2- Run the server :
+~~~bash
+node server.js
+~~~
+Then navigate to :
+~~~bash
+localhost:3000/
+~~~
+You can edit the web listening port in serve.js. In our case, it is 3000
 
 ## The Content of this Repository
 
